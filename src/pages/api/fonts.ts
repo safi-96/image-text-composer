@@ -1,9 +1,19 @@
 // src/pages/api/fonts.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 
+interface GoogleFontResponseItem {
+  family: string;
+  category: string;
+  variants: string[];
+}
+
+interface ApiResponse {
+  items: GoogleFontResponseItem[];
+}
+
 export default async function handler(
   _req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<ApiResponse | { error: string }>
 ) {
   try {
     // Fetch only metadata (small JSON)
@@ -17,12 +27,14 @@ export default async function handler(
 
     const data = await response.json();
 
-    // Send only the minimal info needed
-    const fonts = (data.items || []).map((font: any) => ({
-      family: font.family,
-      category: font.category,
-      variants: font.variants,
-    }));
+    // Map API response to only the needed fields
+    const fonts: GoogleFontResponseItem[] = (data.items || []).map(
+      (font: GoogleFontResponseItem) => ({
+        family: font.family,
+        category: font.category,
+        variants: font.variants,
+      })
+    );
 
     res.status(200).json({ items: fonts });
   } catch (error) {
