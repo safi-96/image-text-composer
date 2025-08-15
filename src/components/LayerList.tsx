@@ -2,6 +2,8 @@
 import React from "react";
 import { TextLayer } from "@/hooks/useEditorState";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import type { DropResult } from "@hello-pangea/dnd";
+
 
 interface Props {
   layers: TextLayer[];
@@ -12,7 +14,7 @@ interface Props {
 }
 
 export const LayerList: React.FC<Props> = ({ layers, selectedId, setSelectedId, removeLayer, setLayers }) => {
-  const handleDragEnd = (result: any) => {
+  const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
     const updated = Array.from(layers);

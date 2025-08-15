@@ -1,9 +1,17 @@
-export const exportCanvas = (stageRef: any, width: number, height: number) => {
-  if (!stageRef.current) return;
+
+import { Stage } from "konva/lib/Stage";
+import { Transformer } from "konva/lib/shapes/Transformer";
+
+export const exportCanvas = (
+  stageRef: React.RefObject<Stage | null>, // ✅ Allow null
+  width: number,
+  height: number
+) => {
+  if (!stageRef.current) return; // ✅ Guard clause so null is handled
 
   // Hide all transformers before export
-  const transformers = stageRef.current.find("Transformer");
-  transformers.forEach((tr: any) => tr.visible(false));
+  const transformers = stageRef.current.find<Transformer>("Transformer");
+  transformers.forEach((tr) => tr.visible(false));
 
   // Force redraw without transformers
   stageRef.current.batchDraw();
@@ -12,7 +20,7 @@ export const exportCanvas = (stageRef: any, width: number, height: number) => {
   const uri = stageRef.current.toDataURL({ pixelRatio: 1, width, height });
 
   // Show transformers again
-  transformers.forEach((tr: any) => tr.visible(true));
+  transformers.forEach((tr) => tr.visible(true));
   stageRef.current.batchDraw();
 
   // Download image
@@ -21,4 +29,3 @@ export const exportCanvas = (stageRef: any, width: number, height: number) => {
   link.href = uri;
   link.click();
 };
-

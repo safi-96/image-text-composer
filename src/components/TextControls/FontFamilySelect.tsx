@@ -13,8 +13,6 @@ interface Props {
   updateLayer: (id: string, updates: Partial<TextLayer>) => void;
 }
 
-const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_FONTS_API_KEY;
-
 
 function loadGoogleFont(font: string) {
   const id = "google-font-" + font.replace(/\s+/g, "-");
@@ -32,7 +30,7 @@ export default function FontFamilySelect({ layer, updateLayer }: Props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}`)
+    fetch("/api/fonts")
       .then((res) => res.json())
       .then((data) => {
         setFonts(data.items || []);

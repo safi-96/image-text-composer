@@ -9,13 +9,19 @@ import {
 } from "react-konva";
 import { TextLayer } from "@/hooks/useEditorState";
 
+// Proper type imports from Konva
+import type { Stage as KonvaStage } from "konva/lib/Stage";
+import type { Transformer as KonvaTransformer } from "konva/lib/shapes/Transformer";
+import type { Text as KonvaTextNode } from "konva/lib/shapes/Text";
+import type { KonvaEventObject } from "konva/lib/Node";
+
 interface CanvasStageProps {
   image: HTMLImageElement | null;
   layers: TextLayer[];
   selectedId: string | null;
   setSelectedId: (id: string | null) => void;
   updateLayer: (id: string, updates: Partial<TextLayer>) => void;
-  stageRef: React.RefObject<any>;
+  stageRef: React.RefObject<KonvaStage>;
 }
 
 export const CanvasStage: React.FC<CanvasStageProps> = ({
@@ -26,7 +32,7 @@ export const CanvasStage: React.FC<CanvasStageProps> = ({
   updateLayer,
   stageRef,
 }) => {
-  const trRef = useRef<any>(null);
+  const trRef = useRef<KonvaTransformer>(null);
 
   // Calculate scale to fit image within 80% viewport height
   const { scale, stageWidth, stageHeight } = useMemo(() => {
@@ -59,9 +65,9 @@ export const CanvasStage: React.FC<CanvasStageProps> = ({
     }
   }, [selectedId, layers, stageRef]);
 
-  const handleDragEnd = (e: any) => {
+  const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
     const id = e.target.id();
-    const node = e.target;
+    const node = e.target as KonvaTextNode;
 
     updateLayer(id, {
       x: node.x() / scale,
@@ -69,9 +75,9 @@ export const CanvasStage: React.FC<CanvasStageProps> = ({
     });
   };
 
-  const handleTransformEnd = (e: any) => {
+  const handleTransformEnd = (e: KonvaEventObject<Event>) => {
     const id = e.target.id();
-    const node = e.target;
+    const node = e.target as KonvaTextNode;
     const scaleX = node.scaleX();
     const scaleY = node.scaleY();
 
@@ -120,22 +126,22 @@ export const CanvasStage: React.FC<CanvasStageProps> = ({
 
           const shadowProps = layer.shadowColor
             ? {
-                shadowColor: layer.shadowColor,
-                shadowBlur: layer.shadowBlur || 0,
-                shadowOffset: {
-                  x: layer.shadowOffsetX || 0,
-                  y: layer.shadowOffsetY || 0,
-                },
-                shadowOpacity: 1,
-              }
+              shadowColor: layer.shadowColor,
+              shadowBlur: layer.shadowBlur || 0,
+              shadowOffset: {
+                x: layer.shadowOffsetX || 0,
+                y: layer.shadowOffsetY || 0,
+              },
+              shadowOpacity: 1,
+            }
             : isSelected
-            ? {
+              ? {
                 shadowColor: "rgba(0,0,0,0.2)",
                 shadowBlur: 10,
                 shadowOffset: { x: 0, y: 0 },
                 shadowOpacity: 1,
               }
-            : {
+              : {
                 shadowColor: "transparent",
                 shadowBlur: 0,
                 shadowOffset: { x: 0, y: 0 },

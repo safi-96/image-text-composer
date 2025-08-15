@@ -85,6 +85,7 @@ Clean separation of editor logic
 2. Lock / unlock layers, duplicate layers
 3. Text shadow (customizable color, blur, and offset)
 
+I wanted to implement all the bonus features, but decided to deliver early so as to not miss the opportunity of working on the next round.  I have ensured that the core features are completed and stable. We can always implement other bonus points later. 
 
 ## 🚧 Known Limitations
 

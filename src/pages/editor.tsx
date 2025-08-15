@@ -8,11 +8,11 @@ import { useEditorState } from "@/hooks/useEditorState";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { exportCanvas } from "@/utils/exportCanvas";
 import { HistoryModal } from "@/components/ToolbarControls/HistoryModal";
-
+import type { Stage } from "konva/lib/Stage";
 
 
 export default function EditorPage() {
-  const stageRef = useRef<any>(null);
+  const stageRef = useRef<Stage>(null!);
   const [showHistory, setShowHistory] = useState(false);
   
   const goToHistoryStep = (index: number) => {

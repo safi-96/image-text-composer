@@ -7,7 +7,7 @@ interface Props {
   updateLayer: (id: string, updates: Partial<TextLayer>) => void;
 }
 
-const icons: Record<string,  React.ReactNode> ={
+const icons: Record<TextLayer["align"], React.ReactNode> = {
   left: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -59,16 +59,18 @@ const icons: Record<string,  React.ReactNode> ={
 };
 
 export default function AlignmentButtons({ layer, updateLayer }: Props) {
+  const alignOptions: TextLayer["align"][] = ["left", "center", "right"];
+
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1">
         Text Alignment
       </label>
       <div className="grid grid-cols-3 gap-2">
-        {["left", "center", "right"].map((align) => (
+        {alignOptions.map((align) => (
           <button
             key={align}
-            onClick={() => updateLayer(layer.id, { align: align as any })}
+            onClick={() => updateLayer(layer.id, { align })}
             className={`py-2 px-3 text-sm rounded-md border transition-colors flex justify-center items-center ${
               layer.align === align
                 ? "bg-[#7C4585] text-white border-[#7C4585]"

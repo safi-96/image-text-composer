@@ -21,8 +21,6 @@ interface Props {
 export default function TextLayerControls({
   layer,
   updateLayer,
-  moveLayerForward,
-  moveLayerBackward,
 }: Props) {
   return (
     <div className="space-y-4 p-4 bg-white rounded-lg shadow-sm border border-gray-200">

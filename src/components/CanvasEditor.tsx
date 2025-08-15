@@ -3,6 +3,7 @@ import React from "react";
 import { TextLayer } from "@/hooks/useEditorState";
 import { CanvasStage } from "./CanvasControls/CanvasStage";
 import { LayerLists } from "./CanvasControls/LayerLists";
+import type { Stage } from "konva/lib/Stage";
 
 interface Props {
   image: HTMLImageElement | null;
@@ -11,7 +12,7 @@ interface Props {
   setSelectedId: (id: string | null) => void;
   updateLayer: (id: string, updates: Partial<TextLayer>) => void;
   duplicateLayer: (id: string) => void;
-  stageRef: React.RefObject<any>;
+  stageRef: React.RefObject<Stage >;
   setLayers: (layers: TextLayer[]) => void;
 }
 
