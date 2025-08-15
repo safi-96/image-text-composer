@@ -13,7 +13,6 @@ interface Props {
   updateLayer: (id: string, updates: Partial<TextLayer>) => void;
 }
 
-
 function loadGoogleFont(font: string) {
   const id = "google-font-" + font.replace(/\s+/g, "-");
   if (!document.getElementById(id)) {
@@ -30,6 +29,7 @@ export default function FontFamilySelect({ layer, updateLayer }: Props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Fetch font metadata
     fetch("/api/fonts")
       .then((res) => res.json())
       .then((data) => {
@@ -40,6 +40,7 @@ export default function FontFamilySelect({ layer, updateLayer }: Props) {
   }, []);
 
   useEffect(() => {
+    // Load selected font dynamically
     if (layer.fontFamily) {
       loadGoogleFont(layer.fontFamily);
     }
@@ -50,6 +51,7 @@ export default function FontFamilySelect({ layer, updateLayer }: Props) {
       <label className="block text-sm font-medium text-gray-700 mb-1">
         Font Family
       </label>
+
       {loading ? (
         <div>Loading fonts...</div>
       ) : (
